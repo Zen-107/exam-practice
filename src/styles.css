@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* โหมดมืดสลับด้วย class .dark บน <html> (ตั้งค่าได้: สว่าง / มืด / ตามเครื่อง) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Sarabun", "TH Sarabun New", "TH SarabunPSK", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* TH Sarabun (Sarabun) ตัวเล็กกว่าฟอนต์ทั่วไป จึงขยายฐานขึ้นเล็กน้อย */
+html { font-size: 106.25%; }
+html, body { background: #f2f6fc; color: #0f172a; }
+html.dark, html.dark body { background: #060f1d; color: #e2e8f0; }
+body { font-family: var(--font-sans); line-height: 1.6; -webkit-tap-highlight-color: transparent; }
+
+.prose-answer h2 { font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0; }
+.prose-answer h3 { font-size: 1.06rem; font-weight: 700; margin: 1rem 0 0.4rem; }
+.prose-answer p, .prose-answer li { line-height: 1.75; margin: 0.35rem 0; }
+.prose-answer ul, .prose-answer ol { padding-left: 1.25rem; list-style: disc; }
+.prose-answer ol { list-style: decimal; }
+.prose-answer hr { margin: 1.25rem 0; border-color: rgb(148 163 184 / 0.35); }
+.prose-answer table { display: block; overflow-x: auto; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.93rem; }
+.prose-answer th, .prose-answer td { border: 1px solid rgb(148 163 184 / 0.4); padding: 0.35rem 0.6rem; vertical-align: top; }
+.prose-answer pre { overflow-x: auto; padding: 0.75rem; border-radius: 0.5rem; background: rgb(148 163 184 / 0.12); font-size: 0.8rem; }
+.prose-answer blockquote { border-left: 3px solid rgb(99 102 241 / 0.6); padding-left: 0.75rem; opacity: 0.85; }
+.prose-answer img { max-width: min(100%, 420px); height: auto; margin: 0.75rem 0; border-radius: 0.5rem; background: #fff; padding: 0.25rem; }
+.prose-answer .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+
+/* ไอคอนในเฉลย (แทน 📍 ✓ ✗) — SVG จาก lucide ใช้เป็น mask จึงเปลี่ยนสีตามธีมได้ */
+.md-icon { display: inline-block; width: 1em; height: 1em; vertical-align: -0.14em; background: currentColor;
+  -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
+.md-pin { color: #e11d48; margin-right: 0.15em;
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E"); }
+.md-check { color: #059669;
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.md-x { color: #e11d48;
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E"); }
+.dark .md-pin, .dark .md-x { color: #fb7185; }
+.dark .md-check { color: #34d399; }
+
+/* ───────── แมวส้มเดินไปมาที่ขอบล่าง ───────── */
+.window-cat { position: fixed; left: 0; top: 0; z-index: 55; pointer-events: none; will-change: transform;
+  filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.25)); }
+.dark .window-cat { filter: drop-shadow(0 0 3px rgb(255 170 80 / 0.35)); }
+.cat-hit { pointer-events: auto; display: block; padding: 0; background: none; border: 0; cursor: pointer; }
+.cat-hit svg { display: block; }
+
+.cat-hit svg { image-rendering: pixelated; }
+/* เดิน: กระดึ๊บขึ้นลงทีละพิกเซล · นอน: หายใจช้าๆ · งอแง: ตัวสั่น */
+.is-walk svg { animation: cat-hop 0.36s steps(2) infinite; }
+.is-sleep svg { animation: cat-breathe 2.4s ease-in-out infinite; transform-origin: 50% 100%; }
+.is-grumpy svg { animation: cat-shake 0.2s steps(2) infinite; }
+.is-pet svg { animation: cat-hop 0.5s steps(2) 2; }
+
+.cat-bubble { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); white-space: nowrap;
+  max-width: 70vw; overflow: hidden; text-overflow: ellipsis; padding: 0.3rem 0.7rem; border-radius: 0.9rem;
+  background: #fff; color: #7a3d12; font-size: 0.9rem; font-weight: 600; border: 2px solid #f28c28;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12); animation: cat-pop 0.25s ease-out; }
+.cat-bubble::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px; border: 6px solid transparent; border-top-color: #f28c28; }
+.dark .cat-bubble { background: #1b2a42; color: #ffd8ad; }
+.cat-bubble.side-left { left: 0; transform: none; animation-name: cat-pop-side; }
+.cat-bubble.side-left::after { left: 26px; }
+.cat-bubble.side-right { left: auto; right: 0; transform: none; animation-name: cat-pop-side; }
+.cat-bubble.side-right::after { left: auto; right: 20px; }
+@keyframes cat-pop-side { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+.cat-hearts { position: absolute; bottom: 100%; left: 60%; color: #ff5d7a; font-size: 1.1rem; animation: cat-heart 1.2s ease-out infinite; }
+
+@keyframes cat-shake { 0% { translate: -2px 0; } 100% { translate: 2px 0; } }
+@keyframes cat-hop { 0% { translate: 0 0; } 100% { translate: 0 -3px; } }
+@keyframes cat-breathe { 0%, 100% { scale: 1 1; } 50% { scale: 1.03 0.96; } }
+@keyframes cat-pop { from { opacity: 0; transform: translateX(-50%) scale(0.7); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+@keyframes cat-heart { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-18px); } }
