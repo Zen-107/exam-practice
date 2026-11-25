@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, ChevronDown, ChevronUp, CircleCheck, CircleDot, CircleX, Lightbulb, MapPin, TriangleAlert, X, type LucideIcon } from 'lucide-react';
+import { BookOpen, Check, ChevronDown, ChevronUp, CircleCheck, CircleDot, CircleX, Lightbulb, MapPin, TriangleAlert, X, type LucideIcon } from 'lucide-react';
 import type { Question } from '../data/types';
 import type { GradeResult, PointResult } from '../grading/types';
 import { scorePercent, slotFraction } from '../grading/grade';
@@ -47,6 +47,8 @@ export function ResultView({ q, result, examMode, onChange }: { q: Question; res
       {groups.map((g, gi) => (
         <div key={g.id} className="flex flex-col gap-2">
           {g.slot && <SlotHeader n={gi + 1} label={g.slot.label} frac={slotFraction(result.points, g.slot, examMode)} />}
+          {!examMode && <Recap text={q.recap?.[g.slot?.id ?? 'main'] ?? (g.slot ? undefined : q.recap?.[Object.keys(q.recap ?? {})[0]])}
+            full={g.slot ? slotFraction(result.points, g.slot) >= 1 : result.percent >= 100} />}
           {g.points.map((p) => {
           const eff = p.override === 'yes' ? 'match' : p.override === 'no' ? 'miss' : p.status;
           const { icon: Icon, cls } = ICON[eff];
@@ -91,6 +93,24 @@ export function ResultView({ q, result, examMode, onChange }: { q: Question; res
         </button>
         {showAnswer && <div className="mt-3 border-t border-slate-200 pt-3 dark:border-[#1d2d47]"><Markdown md={fullAnswer(q)} /></div>}
       </Card>
+    </div>
+  );
+}
+
+/** สรุปเฉลยแบบความเรียง: ช่องที่ยังไม่เต็มเปิดไว้ให้อ่านเลย ช่องที่เต็มแล้วพับไว้ */
+function Recap({ text, full }: { text?: string; full: boolean }) {
+  if (!text) return null;
+  if (full)
+    return (
+      <details className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm dark:border-[#1d2d47] dark:bg-[#15253d]/50">
+        <summary className="flex cursor-pointer items-center gap-1.5 font-semibold text-slate-600 dark:text-slate-300"><BookOpen size={15} aria-hidden /> สรุปเฉลยช่องนี้</summary>
+        <p className="mt-2 leading-relaxed">{text}</p>
+      </details>
+    );
+  return (
+    <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm dark:border-amber-500/40 dark:bg-amber-500/10">
+      <div className="flex items-center gap-1.5 font-semibold text-amber-800 dark:text-amber-300"><BookOpen size={15} aria-hidden /> ช่องนี้ยังไม่เต็ม อ่านเฉลยแบบนี้แล้วจำไว้</div>
+      <p className="mt-1.5 leading-relaxed text-slate-800 dark:text-slate-200">{text}</p>
     </div>
   );
 }

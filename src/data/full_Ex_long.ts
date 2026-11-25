@@ -1,4 +1,5 @@
 import { fullEx } from './full_Ex.js';
+import { FULL_EX_RECAP } from './full_Ex_recap.js';
 import type { AnswerSlot, Question, RubricPoint } from './types';
 
 /**
@@ -54,12 +55,12 @@ function cardPoints(c: Question): RubricPoint[] {
     // แยก "รู้ชื่อขั้นตอน" กับ "ลำดับถูก" — ผิดลำดับนิดหน่อยยังได้คะแนนส่วนแรก
     return [{
       id: pre('steps'), weight: c.weight * 0.6,
-      text: `บอกชื่อขั้นตอนได้: ${steps.join(', ')}`,
+      text: `บอกขั้นตอนหลักได้ (ไม่ต้องครบทุกขั้น): ${steps.join(', ')}`,
       keywords: steps.slice(0, 3).map((s) => [s.toLowerCase().split(/[ (]/)[0]]),
-      hint: `ขั้นตอนมีทั้งหมด ${steps.length} ขั้น`,
+      hint: `ขั้นตอนมีทั้งหมด ${steps.length} ขั้น เริ่มที่ ${steps[0]} จบที่ ${steps[steps.length - 1]}`,
     }, {
       id: pre('order'), weight: c.weight * 0.4,
-      text: `เรียงลำดับถูก: ${steps.join(' → ')}`,
+      text: `เรียงลำดับถูก (ผิดตำแหน่ง 1–2 ขั้นยังพอได้): ${steps.join(' → ')}`,
       keywords: [[steps[0].toLowerCase().split(/[ (]/)[0]]],
       hint: `ขั้นแรกคือ ${steps[0]}`,
     }];
@@ -112,7 +113,7 @@ const SLOT_UI: Record<string, { tip: string; placeholder?: string }> = {
 };
 
 /** ต้องได้กี่ส่วนของประเด็นหลักถึงได้เต็มช่อง */
-const NEED_FRACTION = { essay: 0.7, matching: 0.75, ordering: 1, numeric: 0.85 } as const;
+const NEED_FRACTION = { essay: 0.7, matching: 0.75, ordering: 0.6, numeric: 0.85 } as const;
 
 function cardSlot(c: Question, pts: RubricPoint[]): AnswerSlot {
   const main = pts.filter((p) => !p.bonus).reduce((s, p) => s + p.weight, 0);
@@ -145,6 +146,7 @@ export const fullExLong: Question[] = [1, 2, 3, 4, 5].map((n) => {
     slideRefs: uniq(cards.flatMap((c) => c.slideRefs), (s) => `${s.file}|${s.pages}`),
     rubric: cards.flatMap((c) => cardPoints(c).map((p) => ({ ...p, slot: c.id }))),
     slots: cards.map((c) => cardSlot(c, cardPoints(c))),
+    recap: Object.fromEntries(cards.filter((c) => FULL_EX_RECAP[c.id]).map((c) => [c.id, FULL_EX_RECAP[c.id]])),
     vocab: [...new Set(cards.flatMap((c) => c.vocab))],
   } satisfies Question;
 });

@@ -124,6 +124,29 @@ describe('full answers', () => {
     }
     expect(new Set(justChose1.flatMap((q) => q.rubric!.map((p) => p.id))).size).toBe(justChose1.reduce((n, q) => n + q.rubric!.length, 0));
   });
+  it('Final Exam + CPE320: ทุกช่องคำตอบมีสรุปเฉลยแบบความเรียง (ไม่มีขีดยาว)', () => {
+    for (const q of ALL_QUESTIONS.filter((x) => (x.exam === 'full_Ex' || x.exam === 'cpe320_open') && x.slots)) {
+      for (const s of q.slots!) {
+        expect(q.recap?.[s.id], `${q.id}/${s.id}`).toBeTruthy();
+        expect(q.recap![s.id]).not.toMatch(/[—–]/);
+      }
+    }
+  });
+  it('CPE320: 30 ข้อ ข้อละ 2% สอบจริงสุ่ม 10 ข้อ = 20%', async () => {
+    const { cpe320Open } = await import('../data/cpe320_open');
+    const { buildExam, SUBJECT_BY_ID } = await import('../data/subjects');
+    expect(cpe320Open.map((q) => q.examNo)).toEqual(Array.from({ length: 30 }, (_, i) => i + 1));
+    for (const q of cpe320Open) {
+      expect(q.prompt.length, q.id).toBeGreaterThan(20);
+      expect(fullAnswer(q)).toMatch(new RegExp(`^## ข้อ ${q.examNo}\\)`));
+      expect(q.rubric!.some((p) => !p.bonus), q.id).toBe(true);
+      for (const p of q.rubric!) expect(p.keywords.flat().length, `${q.id}/${p.id}`).toBeGreaterThan(0);
+    }
+    const exam = buildExam(SUBJECT_BY_ID.get('cpe320')!).flatMap((p) => p.questions);
+    expect(exam).toHaveLength(10);
+    expect(new Set(exam.map((q) => q.id)).size).toBe(10);
+    expect(exam.reduce((s, q) => s + q.weight, 0)).toBe(20);
+  });
 });
 
 import { slotFraction } from './grade';

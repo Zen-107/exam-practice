@@ -87,7 +87,7 @@ export const fullEx: Question[] = [
       {
         id: 'es_human_expert', weight: 1,
         text: 'โปรแกรมคอมพิวเตอร์ที่จำลองความสามารถในการแก้ปัญหาของผู้เชี่ยวชาญมนุษย์ (human expert)',
-        keywords: [['ผู้เชี่ยวชาญ', 'expert', 'เชี่ยวชาญ']],
+        keywords: [['ผู้เชี่ยวชาญ', 'human expert', 'เชี่ยวชาญ']],
         hint: 'ขาด "model the problem-solving ability of a human expert"',
       },
       {
@@ -375,7 +375,7 @@ export const fullEx: Question[] = [
       {
         id: 'm41_data', weight: 1,
         text: 'ขึ้นกับข้อมูล: ฉลาดได้เท่าที่ข้อมูลสอน ข้อมูลต้องมากพอ ถูกต้อง เป็นตัวแทนปัญหาจริง (garbage in, garbage out)',
-        keywords: [['ข้อมูล', 'data', 'dataset']],
+        keywords: [['มากพอ', 'ถูกต้อง', 'garbage', 'ตัวแทน', 'คุณภาพ', 'representative', 'เท่าที่ข้อมูล', 'ข้อมูลผิด']],
         hint: 'เงื่อนไขเรื่องข้อมูล: ต้องมากพอ ถูกต้อง เป็นตัวแทน (garbage in, garbage out)',
       },
       {
@@ -460,7 +460,7 @@ export const fullEx: Question[] = [
       {
         id: 'g5_scale', weight: 1,
         text: 'ข้อดี: ถ้ามี input/ข้อมูลมาก (เช่น 1M inputs) การกระจายและแก้ระบบสมการจะหนักมาก GD แค่คำนวณ gradient แล้วปรับทีละก้าว',
-        keywords: [['มาก', 'เยอะ', 'ใหญ่', 'large', 'million', 'ล้าน', 'หลาย']],
+        keywords: [['input มาก', 'ข้อมูลมาก', 'ข้อมูลเยอะ', 'ตัวแปรมาก', 'ขนาดใหญ่', 'large', 'million', 'ล้าน', '1m', 'exhaust', 'แก้สมการ']],
         hint: 'ข้อดี: เมื่อ input หรือข้อมูลมาก แก้สมการตรงๆ ไม่ไหว แต่ GD ทำได้',
       },
       {
@@ -494,7 +494,7 @@ export const fullEx: Question[] = [
         id: 'w5_opposite', weight: 1, required: true,
         text: 'เดินในทิศ "ตรงข้าม" กับ gradient: w_new = w_old − α∇w',
         wrongIf: ['บอกว่าเดินไปทิศเดียวกับ gradient (บวก gradient)'],
-        keywords: [['ตรงข้าม', 'opposite', 'negative', 'ลบ', '-α', '−α', 'ทิศ']],
+        keywords: [['ตรงข้าม', 'opposite', 'negative gradient', '-α', '−α', '- α', '− α', 'ลบด้วย']],
         hint: 'ต้องปรับค่าไปในทิศ "ตรงข้าม" กับ gradient: w = w − α∇w',
       },
       {

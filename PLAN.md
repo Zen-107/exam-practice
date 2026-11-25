@@ -61,7 +61,7 @@
 
 ---
 
-## Phase 1 — Data: แปลงเฉลยเป็น `questions.json` 🟨 (ร่างเสร็จใน `src/data/full_Ex.ts` — รอ QC)
+## Phase 1 — Data: แปลงเฉลยเป็น `questions.json` ✅ (QC rubric Final Exam แล้ว 21 พ.ย. 2026 + สรุปเฉลยแบบความเรียงใน `src/data/full_Ex_recap.ts`)
 
 **เป้าหมาย:** เฉลยที่เครื่องตรวจได้ ชิ้นนี้สำคัญที่สุด เพราะความแม่นของการตรวจขึ้นกับ rubric
 

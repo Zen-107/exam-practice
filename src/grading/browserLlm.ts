@@ -31,11 +31,16 @@ async function send(input: string, init: RequestInit, timeoutMs: number): Promis
 export async function directChat(s: AiSettings, messages: ChatMessage[], opts: { json?: boolean; timeoutMs?: number } = {}): Promise<string> {
   const timeout = opts.timeoutMs ?? s.timeoutMs;
   const minimal = { model: s.model, messages };
-  const full = { ...minimal, ...(opts.json && s.jsonMode ? { response_format: { type: 'json_object' } } : {}) };
+  // ปิด thinking ของโมเดลคิดก่อนตอบ (Qwen3.x, gpt-oss ฯลฯ) ไม่งั้นบน CPU จะคิดนานจนเกินเวลา
+  const noThink = { ...minimal, reasoning_effort: 'none' };
+  const full = { ...noThink, ...(opts.json && s.jsonMode ? { response_format: { type: 'json_object' } } : {}) };
   const post = (body: object) => send(url(s, '/chat/completions'), { method: 'POST', headers: headers(s), body: JSON.stringify(body) }, timeout);
+  const rejected = (r: Response) => r.status === 400 || r.status === 422;
 
+  // server บางตัวไม่รับ response_format=json_object (LM Studio) หรือ reasoning_effort → ถอดออกทีละอย่าง
   let res = await post(full);
-  if ((res.status === 400 || res.status === 422) && full !== minimal && 'response_format' in full) res = await post(minimal);
+  if (rejected(res) && 'response_format' in full) res = await post(noThink);
+  if (rejected(res)) res = await post(minimal);
   if (!res.ok) {
     const detail = (await res.text().catch(() => '')).slice(0, 300);
     throw new DirectAiError('http', `HTTP ${res.status} ${detail}`, res.status);

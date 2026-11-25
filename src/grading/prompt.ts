@@ -1,5 +1,6 @@
 import type { Question } from '../data/types';
 import type { AiPoint } from './grade';
+import { courseOf } from '../data/course.js';
 
 /**
  * prompt + ตัวแปลงผลของตัวตรวจ AI — ใช้ร่วมกันทั้งฝั่ง server (api/grade) และฝั่งเบราว์เซอร์
@@ -19,7 +20,7 @@ export function buildGraderMessages(q: Question, answer: string, source: 'typed'
   }));
 
   const system = [
-    'You are a strict but fair exam grader for a Thai university course (CPE310 Artificial Intelligence).',
+    `You are a strict but fair exam grader for a Thai university course (${courseOf(q.exam)}).`,
     'You grade ONE student answer against a fixed rubric. Judge each rubric point independently.',
     '',
     'Rules:',

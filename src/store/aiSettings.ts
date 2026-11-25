@@ -49,7 +49,7 @@ export const PRESETS: Preset[] = [
 
 export const DEFAULT_SETTINGS: AiSettings = {
   mode: 'server', preset: 'lmstudio', baseUrl: 'http://localhost:1234/v1', model: '', apiKey: '',
-  jsonMode: true, timeoutMs: 120_000, answerKeyChars: 4000, fallbackToServer: true,
+  jsonMode: true, timeoutMs: 300_000, answerKeyChars: 4000, fallbackToServer: true,
 };
 
 const KEY = 'cpe310.ai.v1';

@@ -110,7 +110,7 @@ export default function Exam({ setId }: { setId: string }) {
             {max > 0 && (
               <div>
                 <div className="text-4xl font-extrabold">{total.toFixed(2)} <span className="text-xl text-slate-400">/ {Math.round(max)}%</span></div>
-                <div className="text-sm text-slate-500">Final Exam (full_Ex)</div>
+                <div className="text-sm text-slate-500">{subject.code} · {[...new Set(ALL_QUESTIONS.filter((x) => x.weight > 0).map((x) => SET_BY_ID.get(x.exam)?.title))].join(' + ')}</div>
               </div>
             )}
             {extra.map(({ qq, k }) => (
@@ -126,7 +126,7 @@ export default function Exam({ setId }: { setId: string }) {
           return (
             <Card key={qq.id} className="!p-0">
               <button type="button" className="flex w-full items-center gap-3 p-4 text-left" onClick={() => setOpen(open === k ? null : k)}>
-                <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold dark:bg-[#15253d]">{qq.exam === 'Just_chose1' ? `สุ่ม · ${qq.part}` : qq.part}</span>
+                <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold dark:bg-[#15253d]">{parts.some((p) => p.random && p.setId === qq.exam) ? `สุ่ม · ${qq.part}` : qq.part}</span>
                 <span className="flex-1 font-medium">{qq.title}</span>
                 <ScoreBadge percent={results[k]?.percent} />
               </button>

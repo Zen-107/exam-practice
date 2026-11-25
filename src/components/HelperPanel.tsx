@@ -25,7 +25,7 @@ export function HelperPanel({ q, mode }: { q: Question; mode: InputMode }) {
     q.type === 'essay'
       ? [
           'ตอบเป็นข้อๆ สั้นๆ ทีละประเด็น เครื่องตรวจทีละประเด็น',
-          'ใช้ศัพท์อังกฤษตามสไลด์ เช่น Knowledge Base, Inference Engine',
+          q.exam === 'cpe320_open' ? 'ใช้ศัพท์อังกฤษตามสไลด์ เช่น Verification, Regression Testing, Sprint Backlog' : 'ใช้ศัพท์อังกฤษตามสไลด์ เช่น Knowledge Base, Inference Engine',
           ...(q.autoRubric ? ['ประเด็นของชุดนี้สร้างอัตโนมัติจากเฉลย ถ้าคิดว่าตอบแล้วแต่เครื่องไม่นับ กด "ฉันตอบประเด็นนี้แล้ว" ได้'] : []),
           ...(q.opinion ? ['ข้อนี้ถามความเห็น: บอกจุดยืนให้ชัด แล้วให้เหตุผลประกอบ'] : []),
           ...(mode === 'voice' ? ['พูดศัพท์อังกฤษช้าๆ ชัดๆ แล้วแก้คำที่ถอดผิดก่อนกดส่ง'] : []),

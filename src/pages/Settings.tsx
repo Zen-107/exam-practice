@@ -38,7 +38,8 @@ export default function Settings() {
       mode, preset: id, baseUrl: p.baseUrl || s.baseUrl, model: p.model ?? '',
       answerKeyChars: p.answerKeyChars ?? DEFAULT_SETTINGS.answerKeyChars,
       jsonMode: p.jsonMode ?? true,
-      timeoutMs: p.mode === 'local' ? 120_000 : 40_000,
+      // AI ในเครื่อง (CPU) อ่าน prompt ช้า — ให้เวลา 300 วิ และไม่รีเซ็ตค่าที่ผู้ใช้ตั้งเองถ้ายังอยู่โหมดเดิม
+      timeoutMs: mode === s.mode && s.timeoutMs ? s.timeoutMs : p.mode === 'local' ? 300_000 : 40_000,
       apiKey: p.mode === 'local' ? '' : s.apiKey,
     });
   };

@@ -12,6 +12,7 @@ bun run dev
 ```
 
 - **ใช้ AI ในเครื่องตัวเอง** (LM Studio / Ollama / vLLM) ไม่เปลืองโควตา cloud — เพื่อนที่เปิดเว็บที่ deploy ไว้ตั้งเองได้ในหน้า **ตั้งค่าตัวตรวจ** (ไอคอนเฟือง) ดู [docs/LOCAL_AI.md](docs/LOCAL_AI.md)
+- **CPE320 Software Engineering** (Open Exam 30 ข้อ, สอบจริงสุ่ม 10 ข้อ ข้อละ 2%): แก้เฉลยที่ `D:/work/Junior/cpe320/CPE320_20_OpenExam_Answers.md` แล้วรัน `python -I scripts/extract_cpe320.py` เพื่อสร้าง `src/data/cpe320_open.data.ts` ใหม่
 - `bun run test` เทสต์ตัวตรวจ (ตัวเลข/จับคู่/เรียงลำดับ/keyword/quote check)
 - `bun run build` typecheck + build
 

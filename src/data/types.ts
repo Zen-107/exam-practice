@@ -80,8 +80,10 @@ export interface Question {
   opinion?: boolean;
   /** rubric สร้างอัตโนมัติจากเฉลย (ยังไม่ได้ QC ทีละข้อ) */
   autoRubric?: boolean;
+  /** สรุปเฉลยแบบความเรียงให้จำ แสดงหลังตรวจในโหมดฝึก (key = id ช่องคำตอบ, ข้อช่องเดียวใช้ 'main') */
+  recap?: Record<string, string>;
   /** ช่องคำตอบ (ข้อ essay) — ไม่ใส่ = ช่องเดียว */
   slots?: AnswerSlot[];
 }
 
-export type ExamSetId = 'full_Ex' | 'Just_chose1';
+export type ExamSetId = 'full_Ex' | 'Just_chose1' | 'cpe320_open';

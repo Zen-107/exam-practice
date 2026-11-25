@@ -1,5 +1,6 @@
 import { fullExLong } from './full_Ex_long.js';
 import { justChose1, JC1_CATEGORIES } from './just_chose1.js';
+import { cpe320Open, CPE320_CATEGORIES, CPE320_PICK, CPE320_WEIGHT } from './cpe320_open.js';
 import type { ExamSetId, Question } from './types';
 
 export interface ExamSet {
@@ -39,10 +40,17 @@ export const SUBJECTS: Subject[] = [
     // สอบจริง: full_Ex ออกทั้งหมด + สุ่ม Just_chose1 มา 1 ข้อ
     exam: [{ setId: 'full_Ex' }, { setId: 'Just_chose1', pick: 1 }],
   },
-  // ── วิชาถัดไป: จองที่ไว้ก่อน ── เพิ่มชุดข้อสอบได้โดยใส่ ExamSet ลงใน sets แล้วเอา placeholder ออก
   {
-    id: 'next', code: 'CPE3XX', name: 'วิชาถัดไป (ยังไม่ได้เพิ่ม)',
-    sets: [], placeholder: true,
+    id: 'cpe320', code: 'CPE320', name: 'Software Engineering',
+    sets: [
+      {
+        id: 'cpe320_open', title: 'Open Exam',
+        subtitle: `${cpe320Open.length} ข้อ · สอบจริงสุ่มออก ${CPE320_PICK} ข้อ (ข้อละ ${CPE320_WEIGHT}%) · 20%`,
+        questions: cpe320Open, categories: CPE320_CATEGORIES,
+      },
+    ],
+    // สอบจริง: สุ่ม 10 จาก 30 ข้อ
+    exam: [{ setId: 'cpe320_open', pick: CPE320_PICK }],
   },
 ];
 

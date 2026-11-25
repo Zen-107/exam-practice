@@ -1,6 +1,7 @@
 import type { Question } from '../../src/data/types';
 import { config } from './env.js';
 import { chat } from './llm.js';
+import { courseOf } from '../../src/data/course.js';
 
 /**
  * แก้คำที่ STT ถอดเพี้ยนด้วย LLM (ตัวเดียวกับตัวตรวจ)
